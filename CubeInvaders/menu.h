@@ -12,6 +12,7 @@ protected:
 	bool start_game = true;
 	bool options = false;
 	bool enemies_amount = false;
+	bool enemies_speed = false;
 	int e_speed = opponentSpeed();
 	int e_amount = opponentAmount();
 public:

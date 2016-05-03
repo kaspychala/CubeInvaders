@@ -20,7 +20,7 @@ void Menu::createMenu(ALLEGRO_FONT* font, ALLEGRO_FONT* font_start, ALLEGRO_EVEN
 					if (options == true) {
 						al_clear_to_color(al_map_rgb(0, 0, 0));
 						al_draw_text(font, al_map_rgb(255, 255, 255), 410, 50, ALLEGRO_ALIGN_CENTER, "OPTIONS");
-						al_draw_text(font_start, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "Enemies speed");
+						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "Enemies speed: %d", e_speed);
 						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 400, ALLEGRO_ALIGN_CENTER, "> Enemies amount: %d", e_amount);
 						al_flip_display();
 						enemies_amount = true;
@@ -38,9 +38,10 @@ void Menu::createMenu(ALLEGRO_FONT* font, ALLEGRO_FONT* font_start, ALLEGRO_EVEN
 						al_clear_to_color(al_map_rgb(0, 0, 0));
 						al_draw_text(font, al_map_rgb(255, 255, 255), 410, 50, ALLEGRO_ALIGN_CENTER, "OPTIONS");
 						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "> Enemies speed: %d", e_speed);
-						al_draw_text(font_start, al_map_rgb(255, 255, 255), 400, 400, ALLEGRO_ALIGN_CENTER, "Enemies amount");
+						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 400, ALLEGRO_ALIGN_CENTER, "Enemies amount: %d", e_amount);
 						al_flip_display();
 						enemies_amount = false;
+						start_game = false;
 					}
 					break;
 
@@ -48,7 +49,7 @@ void Menu::createMenu(ALLEGRO_FONT* font, ALLEGRO_FONT* font_start, ALLEGRO_EVEN
 					if (options == true && enemies_amount == true) {
 						al_clear_to_color(al_map_rgb(0, 0, 0));
 						al_draw_text(font, al_map_rgb(255, 255, 255), 410, 50, ALLEGRO_ALIGN_CENTER, "OPTIONS");
-						al_draw_text(font_start, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "Enemies speed");
+						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "Enemies speed: %d", e_speed);
 						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 400, ALLEGRO_ALIGN_CENTER, "> Enemies amount: %d", --e_amount);
 						al_flip_display();
 					}
@@ -56,7 +57,7 @@ void Menu::createMenu(ALLEGRO_FONT* font, ALLEGRO_FONT* font_start, ALLEGRO_EVEN
 						al_clear_to_color(al_map_rgb(0, 0, 0));
 						al_draw_text(font, al_map_rgb(255, 255, 255), 410, 50, ALLEGRO_ALIGN_CENTER, "OPTIONS");
 						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "> Enemies speed: %d", --e_speed);
-						al_draw_text(font_start, al_map_rgb(255, 255, 255), 400, 400, ALLEGRO_ALIGN_CENTER, "Enemies amount");
+						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 400, ALLEGRO_ALIGN_CENTER, "Enemies amount: %d", e_amount);
 						al_flip_display();
 					}
 					break;
@@ -66,7 +67,7 @@ void Menu::createMenu(ALLEGRO_FONT* font, ALLEGRO_FONT* font_start, ALLEGRO_EVEN
 					if (options == true && enemies_amount == true) {
 						al_clear_to_color(al_map_rgb(0, 0, 0));
 						al_draw_text(font, al_map_rgb(255, 255, 255), 410, 50, ALLEGRO_ALIGN_CENTER, "OPTIONS");
-						al_draw_text(font_start, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "Enemies speed");
+						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "Enemies speed: %d", e_speed);
 						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 400, ALLEGRO_ALIGN_CENTER, "> Enemies amount: %d", ++e_amount);
 						al_flip_display();
 					}
@@ -74,7 +75,7 @@ void Menu::createMenu(ALLEGRO_FONT* font, ALLEGRO_FONT* font_start, ALLEGRO_EVEN
 						al_clear_to_color(al_map_rgb(0, 0, 0));
 						al_draw_text(font, al_map_rgb(255, 255, 255), 410, 50, ALLEGRO_ALIGN_CENTER, "OPTIONS");
 						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "> Enemies speed: %d", ++e_speed);
-						al_draw_text(font_start, al_map_rgb(255, 255, 255), 400, 400, ALLEGRO_ALIGN_CENTER, "Enemies amount");
+						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 400, ALLEGRO_ALIGN_CENTER, "Enemies amount: %d", e_amount);
 						al_flip_display();
 					}
 					break;
@@ -88,7 +89,7 @@ void Menu::createMenu(ALLEGRO_FONT* font, ALLEGRO_FONT* font_start, ALLEGRO_EVEN
 						al_clear_to_color(al_map_rgb(0, 0, 0));
 						al_draw_text(font, al_map_rgb(255, 255, 255), 410, 50, ALLEGRO_ALIGN_CENTER, "OPTIONS");
 						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "> Enemies speed: %d", e_speed);
-						al_draw_text(font_start, al_map_rgb(255, 255, 255), 400, 400, ALLEGRO_ALIGN_CENTER, "Enemies amount");
+						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 400, ALLEGRO_ALIGN_CENTER, "Enemies amount: %d", e_amount);
 						al_flip_display();
 						options = true;
 					}
