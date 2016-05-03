@@ -11,6 +11,7 @@
 int main()
 {
 	////////////////////////////////////////////////////////
+	//////VARIABLES INITIALIZATION
 	////////////////////////////////////////////////////////
 	const float FPS = 60;
 	bool bulletHit = false;
@@ -21,7 +22,7 @@ int main()
 	int positionY = 100;
 	bool done = false;
 	/////////////////////////////////////////////////////////
-	//////ALLEGRO INITIALIZATIONS
+	//////ALLEGRO INITIALIZATION
 	/////////////////////////////////////////////////////////
 	al_init();
 	al_init_font_addon();
@@ -38,23 +39,22 @@ int main()
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_start_timer(timer);
 	////////////////////////////////////////////////////////
+	//////MENU, SAVE, PLAYER, BULLET INITIALIZATION
 	////////////////////////////////////////////////////////
 	Menu menu;
 	menu.createMenu(font, font_start, event_queue);
 	Save save;
-	int speed = save.opponentSpeed();
+	Player player;
+	player.initPlayer(400, 500);
+	Bullet bullet;
+	////////////////////////////////////////////////////////
+	//////OPPONENT INITIALIZATION
+	////////////////////////////////////////////////////////
+	std::vector <Opponent> opponent;
 	std::vector <bool> opponentHit;
 	for (int i = 0; i < save.opponentAmount(); i++) {
 		opponentHit.push_back(false);
 	}
-	////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////
-	Player player;
-	Bullet bullet;
-	std::vector <Opponent> opponent;
-	////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////
-	player.initPlayer(400, 500);
 	for (int i = 0; i < save.opponentAmount(); i++) {
 		opponent.push_back(Opponent());
 	}
@@ -67,6 +67,7 @@ int main()
 		}
 	}
 	////////////////////////////////////////////////////////
+	//////GAME
 	////////////////////////////////////////////////////////
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	al_flip_display();
@@ -85,8 +86,10 @@ int main()
 				break;
 
 			case ALLEGRO_KEY_SPACE:
-				bullet.initBullet(player.positionX(), player.positionY());
-				fire = true;
+				if (fire == false) {
+					bullet.initBullet(player.positionX(), player.positionY());
+					fire = true;
+				}
 				break;
 
 			case ALLEGRO_KEY_ESCAPE:
@@ -98,12 +101,12 @@ int main()
 			bullet.moveBullet();
 			if (left_to_right == true) {
 				for (int i = 0; i < save.opponentAmount(); i++) {
-					opponent[i].moveRight(speed);
+					opponent[i].moveRight(save.opponentSpeed());
 				}
 			}
 			if (left_to_right == false) {
 				for (int i = 0; i < save.opponentAmount(); i++) {
-					opponent[i].moveLeft(speed);
+					opponent[i].moveLeft(save.opponentSpeed());
 				}
 			}
 			if (save.opponentAmount() >= 12) {
