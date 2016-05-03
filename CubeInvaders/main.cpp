@@ -96,31 +96,41 @@ int main()
 		}
 		if (events.type == ALLEGRO_EVENT_TIMER) {
 			bullet.moveBullet();
-			for (int i = 0; i < save.opponentAmount(); i++) {
-				if (left_to_right == true) {
+			if (left_to_right == true) {
+				for (int i = 0; i < save.opponentAmount(); i++) {
 					opponent[i].moveRight(speed);
 				}
-				if (left_to_right == false) {
+			}
+			if (left_to_right == false) {
+				for (int i = 0; i < save.opponentAmount(); i++) {
 					opponent[i].moveLeft(speed);
 				}
-				if (save.opponentAmount() >= 12) {
-					if (opponent[10].positionX() > 720) {
+			}
+			if (save.opponentAmount() >= 12) {
+				if (opponent[10].positionX() > 720) {
+					for (int i = 0; i < save.opponentAmount(); i++) {
 						opponent[i].moveDown(20);
-						left_to_right = false;
 					}
+					left_to_right = false;
 				}
-				else {
-					if (opponent[save.opponentAmount() - 1].positionX() > 750) {
+			}
+			else {
+				if (opponent[save.opponentAmount() - 1].positionX() > 740) {
+					for (int i = 0; i < save.opponentAmount(); i++) {
 						opponent[i].moveDown(20);
-						left_to_right = false;
 					}
+					left_to_right = false;
 				}
-				if (opponent[0].positionX() < 50) {
+			}
+			if (opponent[0].positionX() < 40) {
+				for (int i = 0; i < save.opponentAmount(); i++) {
 					opponent[i].moveDown(20);
-					left_to_right = true;
 				}
-				if (fire == true && bulletHit == false) {
-					if ((bullet.positionX() >= opponent[i].positionX() - 10 && bullet.positionX() <= opponent[i].positionX() + 10) && bullet.positionY() < opponent[i].positionY() && opponentHit[i] == false) {
+				left_to_right = true;
+			}
+			if (fire == true && bulletHit == false) {
+				for (int i = 0; i < save.opponentAmount(); i++) {
+					if ((bullet.positionX() >= opponent[i].positionX() - 10 && bullet.positionX() <= opponent[i].positionX() + 10) && (bullet.positionY() <= opponent[i].positionY() +10 && bullet.positionY() >= opponent[i].positionY()-10) && opponentHit[i] == false) {
 						opponentHit[i] = true;
 						bulletHit = true;
 						score++;
