@@ -43,8 +43,14 @@ int main()
 	menu.createMenu(font, font_start, event_queue);
 	Save save;
 	Player player;
+	Player player2;
 	player.initPlayer(400, 500);
+	if (save.gameMode() == "co-op") {
+		player.initPlayer(200, 500);
+		player2.initPlayer(600, 500);
+	}
 	Bullet bullet;
+	Bullet bullet2;
 	////////////////////////////////////////////////////////
 	//////OPPONENT INITIALIZATION
 	////////////////////////////////////////////////////////
@@ -75,11 +81,11 @@ int main()
 		if (events.type == ALLEGRO_EVENT_KEY_DOWN) {
 			switch (events.keyboard.keycode) {
 
-			case ALLEGRO_KEY_LEFT:
+			case ALLEGRO_KEY_A:
 				player.moveLeft();
 				break;
 
-			case ALLEGRO_KEY_RIGHT:
+			case ALLEGRO_KEY_D:
 				player.moveRight();
 				break;
 
@@ -89,6 +95,24 @@ int main()
 					player.shootPlayer(true);
 				}
 				break;
+			
+			if (save.gameMode() == "co-op") {
+
+				case ALLEGRO_KEY_LEFT:
+					player2.moveLeft();
+					break;
+
+				case ALLEGRO_KEY_RIGHT:
+					player2.moveRight();
+					break;
+			
+				case ALLEGRO_KEY_PAD_0:
+					if (player2.isShoot() == false) {
+						bullet2.initBullet(player2.positionX(), player2.positionY());
+						player2.shootPlayer(true);
+					}
+					break;
+			}
 
 			case ALLEGRO_KEY_ESCAPE:
 				done = true;
@@ -97,6 +121,9 @@ int main()
 		}
 		if (events.type == ALLEGRO_EVENT_TIMER) {
 			bullet.moveBullet();
+			if (save.gameMode() == "co-op") {
+				bullet2.moveBullet();
+			}
 			if (left_to_right == true) {
 				for (int i = 0; i < save.opponentAmount(); i++) {
 					opponent[i].moveRight(save.opponentSpeed());
@@ -138,9 +165,23 @@ int main()
 					}
 				}
 			}
+			if (save.gameMode() == "co-op") {
+				if (player2.isShoot() == true && bullet2.isHit() == false) {
+					for (int i = 0; i < save.opponentAmount(); i++) {
+						if ((bullet2.positionX() >= opponent[i].positionX() - 10 && bullet2.positionX() <= opponent[i].positionX() + 10) && (bullet2.positionY() <= opponent[i].positionY() + 10 && bullet2.positionY() >= opponent[i].positionY() - 10) && opponentHit[i] == false) {
+							opponentHit[i] = true;
+							bullet2.bulletHit(true);
+							score++;
+						}
+					}
+				}
+			}
 		}
 		al_clear_to_color(al_map_rgb(0, 0, 0));
 		player.drawPlayer();
+		if (save.gameMode() == "co-op") {
+			player2.drawPlayer();
+		}
 		for (int i = 0; i < save.opponentAmount(); i++) {
 			if (opponentHit[i] == false) {
 				opponent[i].drawOpponent();
@@ -157,6 +198,20 @@ int main()
 			bullet.initBullet(player.positionX(), player.positionY());
 			bullet.bulletHit(false);
 			player.shootPlayer(false);
+		}
+		if (save.gameMode() == "co-op") {
+			if ((player2.isShoot() == true && bullet2.isHit() == false)) {
+				bullet2.drawBullet();
+				if (bullet2.positionY() < -20) {
+					bullet2.initBullet(player2.positionX(), player2.positionY());
+					player2.shootPlayer(false);
+				}
+			}
+			if (bullet2.isHit() == true) {
+				bullet2.initBullet(player2.positionX(), player2.positionY());
+				bullet2.bulletHit(false);
+				player2.shootPlayer(false);
+			}
 		}
 		al_draw_textf(font_score, al_map_rgb(255, 255, 255), 60, 10, ALLEGRO_ALIGN_CENTER, "Score: %d", score);
 		al_flip_display();
