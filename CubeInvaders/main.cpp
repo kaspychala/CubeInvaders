@@ -14,9 +14,7 @@ int main()
 	//////VARIABLES INITIALIZATION
 	////////////////////////////////////////////////////////
 	const float FPS = 60;
-	bool bulletHit = false;
 	bool left_to_right = true;
-	bool fire = false;
 	int score = 0;
 	int positionX = 100;
 	int positionY = 100;
@@ -86,9 +84,9 @@ int main()
 				break;
 
 			case ALLEGRO_KEY_SPACE:
-				if (fire == false) {
+				if (player.isShoot() == false) {
 					bullet.initBullet(player.positionX(), player.positionY());
-					fire = true;
+					player.shootPlayer(true);
 				}
 				break;
 
@@ -131,11 +129,11 @@ int main()
 				}
 				left_to_right = true;
 			}
-			if (fire == true && bulletHit == false) {
+			if (player.isShoot() == true && bullet.isHit() == false) {
 				for (int i = 0; i < save.opponentAmount(); i++) {
 					if ((bullet.positionX() >= opponent[i].positionX() - 10 && bullet.positionX() <= opponent[i].positionX() + 10) && (bullet.positionY() <= opponent[i].positionY() +10 && bullet.positionY() >= opponent[i].positionY()-10) && opponentHit[i] == false) {
 						opponentHit[i] = true;
-						bulletHit = true;
+						bullet.bulletHit(true);
 						score++;
 					}
 				}
@@ -148,17 +146,17 @@ int main()
 				opponent[i].drawOpponent();
 			}
 		}
-		if ((fire == true && bulletHit == false)) {
+		if ((player.isShoot() == true && bullet.isHit() == false)) {
 			bullet.drawBullet();
 			if (bullet.positionY() < -20) {
 				bullet.initBullet(player.positionX(), player.positionY());
-				fire = false;
+				player.shootPlayer(false);
 			}
 		}
-		if (bulletHit == true) {
+		if (bullet.isHit() == true) {
 			bullet.initBullet(player.positionX(), player.positionY());
-			bulletHit = false;
-			fire = false;
+			bullet.bulletHit(false);
+			player.shootPlayer(false);
 		}
 		al_draw_textf(font_score, al_map_rgb(255, 255, 255), 60, 10, ALLEGRO_ALIGN_CENTER, "Score: %d", score);
 		al_flip_display();

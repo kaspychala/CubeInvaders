@@ -3,6 +3,7 @@
 void Player::initPlayer(int player_x, int player_y) {
 	this->player_x = player_x;
 	this->player_y = player_y;
+	shoot = false;
 }
 
 void Player::moveLeft() {
@@ -11,6 +12,14 @@ void Player::moveLeft() {
 
 void Player::moveRight() {
 	player_x += 20;
+}
+
+void Player::shootPlayer(bool shoot) {
+	this->shoot = shoot;
+}
+
+bool Player::isShoot() {
+	return shoot;
 }
 
 void Player::drawPlayer() {

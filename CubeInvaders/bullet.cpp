@@ -3,6 +3,7 @@
 void Bullet::initBullet(int bullet_x, int bullet_y) {
 	this->bullet_x = bullet_x;
 	this->bullet_y = bullet_y;
+	hit = false;
 }
 
 void Bullet::drawBullet() {
@@ -11,6 +12,14 @@ void Bullet::drawBullet() {
 
 void Bullet::moveBullet() {
 	bullet_y -= 15;
+}
+
+void Bullet::bulletHit(bool hit) {
+	this->hit = hit;
+}
+
+bool Bullet::isHit() {
+	return hit;
 }
 
 int Bullet::positionX() {
