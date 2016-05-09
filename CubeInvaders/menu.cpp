@@ -52,7 +52,7 @@ void Menu::createMenu(ALLEGRO_FONT* font, ALLEGRO_FONT* font_start, ALLEGRO_EVEN
 						al_flip_display();
 						start_game = true;
 					}
-					if ((options == true && enemies_amount == true) || enemies_speed == true) {
+					if ((options == true && enemies_amount == true) || (enemies_speed == true && options == true)) {
 						al_clear_to_color(al_map_rgb(0, 0, 0));
 						al_draw_text(font, al_map_rgb(255, 255, 255), 410, 50, ALLEGRO_ALIGN_CENTER, "OPTIONS");
 						al_draw_textf(font_start, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "> Enemies speed: %d", e_speed);
