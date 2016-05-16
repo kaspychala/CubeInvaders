@@ -82,11 +82,11 @@ int main()
 			switch (events.keyboard.keycode) {
 
 			case ALLEGRO_KEY_A:
-				player.moveLeft();
+				player.moveLeft(20);
 				break;
 
 			case ALLEGRO_KEY_D:
-				player.moveRight();
+				player.moveRight(20);
 				break;
 
 			case ALLEGRO_KEY_SPACE:
@@ -99,11 +99,11 @@ int main()
 			if (save.gameMode() == "co-op") {
 
 				case ALLEGRO_KEY_LEFT:
-					player2.moveLeft();
+					player2.moveLeft(20);
 					break;
 
 				case ALLEGRO_KEY_RIGHT:
-					player2.moveRight();
+					player2.moveRight(20);
 					break;
 			
 				case ALLEGRO_KEY_PAD_0:
@@ -178,13 +178,13 @@ int main()
 			}
 		}
 		al_clear_to_color(al_map_rgb(0, 0, 0));
-		player.drawPlayer();
+		player.draw();
 		if (save.gameMode() == "co-op") {
-			player2.drawPlayer();
+			player2.draw();
 		}
 		for (int i = 0; i < save.opponentAmount(); i++) {
 			if (opponentHit[i] == false) {
-				opponent[i].drawOpponent();
+				opponent[i].draw();
 			}
 		}
 		if ((player.isShoot() == true && bullet.isHit() == false)) {

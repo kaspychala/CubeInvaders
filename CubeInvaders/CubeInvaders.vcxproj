@@ -123,6 +123,7 @@
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="opponent.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="draw.cpp" />
     <ClCompile Include="save.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +131,7 @@
     <ClInclude Include="menu.h" />
     <ClInclude Include="opponent.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="draw.h" />
     <ClInclude Include="save.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
