@@ -1,10 +1,11 @@
-#ifndef draw_h
-#define draw_h
+#ifndef drawable_h
+#define drawable_h
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 
-class Draw {
+class Drawable {
 protected:
+	int size;
 	int position_x;
 	int position_y;
 public:
@@ -12,6 +13,7 @@ public:
 	void moveLeft(int);
 	void moveRight(int);
 	void moveDown(int);
+	void moveUp(int);
 	int positionX();
 	int positionY();
 };

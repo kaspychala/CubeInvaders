@@ -2,21 +2,15 @@
 #define bullet_h
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
+#include "drawable.h"
 
-class Bullet {
+class Bullet : public Drawable{
 protected:
 	bool hit;
-	int bullet_x;
-	int bullet_y;
 public:
-	void initBullet(int, int);
-	void drawBullet();
-	void moveBullet();
+	void initBullet(int, int, int);
 	void bulletHit(bool);
 	bool isHit();
-	int positionX();
-	int positionY();
-
 };
 
 #endif

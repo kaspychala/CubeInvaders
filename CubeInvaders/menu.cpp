@@ -1,6 +1,7 @@
 #include "menu.h"
 
 void Menu::createMenu(ALLEGRO_FONT* font, ALLEGRO_FONT* font_start, ALLEGRO_EVENT_QUEUE* event_queue) {
+	al_clear_to_color(al_map_rgb(0, 0, 0));
 	al_draw_text(font, al_map_rgb(255, 255, 255), 410, 50, ALLEGRO_ALIGN_CENTER, "CUBE INVADERS");
 	al_draw_text(font_start, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "> Start game");
 	al_draw_text(font_start, al_map_rgb(255, 255, 255), 400, 400, ALLEGRO_ALIGN_CENTER, "Options");
@@ -164,6 +165,12 @@ void Menu::createMenu(ALLEGRO_FONT* font, ALLEGRO_FONT* font_start, ALLEGRO_EVEN
 				}
 			}
 	}
+	done = false;
+	start_game = true;
+	options = false;
+	enemies_amount = false;
+	enemies_speed = false;
+	game_mode = false;
 }
 
 void Menu::createWin(ALLEGRO_FONT* font) {

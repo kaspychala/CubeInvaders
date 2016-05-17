@@ -19,6 +19,7 @@ int main()
 	int positionX = 100;
 	int positionY = 100;
 	bool done = false;
+	bool gameInit = false;
 	/////////////////////////////////////////////////////////
 	//////ALLEGRO INITIALIZATION
 	/////////////////////////////////////////////////////////
@@ -40,15 +41,9 @@ int main()
 	//////MENU, SAVE, PLAYER, BULLET INITIALIZATION
 	////////////////////////////////////////////////////////
 	Menu menu;
-	menu.createMenu(font, font_start, event_queue);
 	Save save;
 	Player player;
 	Player player2;
-	player.initPlayer(400, 500);
-	if (save.gameMode() == "co-op") {
-		player.initPlayer(200, 500);
-		player2.initPlayer(600, 500);
-	}
 	Bullet bullet;
 	Bullet bullet2;
 	////////////////////////////////////////////////////////
@@ -56,26 +51,41 @@ int main()
 	////////////////////////////////////////////////////////
 	std::vector <Opponent> opponent;
 	std::vector <bool> opponentHit;
-	for (int i = 0; i < save.opponentAmount(); i++) {
-		opponentHit.push_back(false);
-	}
-	for (int i = 0; i < save.opponentAmount(); i++) {
-		opponent.push_back(Opponent());
-	}
-	for (int i = 0; i < save.opponentAmount(); i++) {
-		opponent[i].initOpponent(positionX, positionY);
-		positionX += 50;
-		if (positionX > 660) {
-			positionX = 100;
-			positionY += 40;
-		}
-	}
 	////////////////////////////////////////////////////////
 	//////GAME
 	////////////////////////////////////////////////////////
-	al_clear_to_color(al_map_rgb(0, 0, 0));
-	al_flip_display();
 	while (done == false) {
+		//////GAME INITIALIZATION
+		if (gameInit == false) {
+			opponent.clear();
+			opponentHit.clear();
+			positionX = 100;
+			positionY = 100;
+			menu.createMenu(font, font_start, event_queue);
+			player.initPlayer(400, 500, 30);
+			if (save.gameMode() == "co-op") {
+				player.initPlayer(200, 500, 30);
+				player2.initPlayer(600, 500, 30);
+			}
+			for (int i = 0; i < save.opponentAmount(); i++) {
+				opponentHit.push_back(false);
+			}
+			for (int i = 0; i < save.opponentAmount(); i++) {
+				opponent.push_back(Opponent());
+			}
+			for (int i = 0; i < save.opponentAmount(); i++) {
+				opponent[i].initOpponent(positionX, positionY, 30);
+				positionX += 50;
+				if (positionX > 660) {
+					positionX = 100;
+					positionY += 40;
+				}
+			}
+			al_clear_to_color(al_map_rgb(0, 0, 0));
+			al_flip_display();
+			gameInit = true;
+		}
+		/////GET KEYBOARD
 		ALLEGRO_EVENT events;
 		al_wait_for_event(event_queue, &events);
 		if (events.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -91,7 +101,7 @@ int main()
 
 			case ALLEGRO_KEY_SPACE:
 				if (player.isShoot() == false) {
-					bullet.initBullet(player.positionX(), player.positionY());
+					bullet.initBullet(player.positionX(), player.positionY(), 15);
 					player.shootPlayer(true);
 				}
 				break;
@@ -106,9 +116,9 @@ int main()
 					player2.moveRight(20);
 					break;
 			
-				case ALLEGRO_KEY_PAD_0:
+				case ALLEGRO_KEY_RCTRL:
 					if (player2.isShoot() == false) {
-						bullet2.initBullet(player2.positionX(), player2.positionY());
+						bullet2.initBullet(player2.positionX(), player2.positionY(), 15);
 						player2.shootPlayer(true);
 					}
 					break;
@@ -119,10 +129,11 @@ int main()
 				break;
 			}
 		}
+		/////MOVE CUBES
 		if (events.type == ALLEGRO_EVENT_TIMER) {
-			bullet.moveBullet();
+			bullet.moveUp(15);
 			if (save.gameMode() == "co-op") {
-				bullet2.moveBullet();
+				bullet2.moveUp(15);
 			}
 			if (left_to_right == true) {
 				for (int i = 0; i < save.opponentAmount(); i++) {
@@ -177,6 +188,7 @@ int main()
 				}
 			}
 		}
+		/////DRAW CUBES
 		al_clear_to_color(al_map_rgb(0, 0, 0));
 		player.draw();
 		if (save.gameMode() == "co-op") {
@@ -188,40 +200,43 @@ int main()
 			}
 		}
 		if ((player.isShoot() == true && bullet.isHit() == false)) {
-			bullet.drawBullet();
+			bullet.draw();
 			if (bullet.positionY() < -20) {
-				bullet.initBullet(player.positionX(), player.positionY());
+				bullet.initBullet(player.positionX(), player.positionY(), 15);
 				player.shootPlayer(false);
 			}
 		}
 		if (bullet.isHit() == true) {
-			bullet.initBullet(player.positionX(), player.positionY());
+			bullet.initBullet(player.positionX(), player.positionY(), 15);
 			bullet.bulletHit(false);
 			player.shootPlayer(false);
 		}
 		if (save.gameMode() == "co-op") {
 			if ((player2.isShoot() == true && bullet2.isHit() == false)) {
-				bullet2.drawBullet();
+				bullet2.draw();
 				if (bullet2.positionY() < -20) {
-					bullet2.initBullet(player2.positionX(), player2.positionY());
+					bullet2.initBullet(player2.positionX(), player2.positionY(), 15);
 					player2.shootPlayer(false);
 				}
 			}
 			if (bullet2.isHit() == true) {
-				bullet2.initBullet(player2.positionX(), player2.positionY());
+				bullet2.initBullet(player2.positionX(), player2.positionY(), 15);
 				bullet2.bulletHit(false);
 				player2.shootPlayer(false);
 			}
 		}
 		al_draw_textf(font_score, al_map_rgb(255, 255, 255), 60, 10, ALLEGRO_ALIGN_CENTER, "Score: %d", score);
 		al_flip_display();
+		/////DRAW WIN OR LOSS
 		if (score == save.opponentAmount()) {
 			menu.createWin(font);
-			done = true;
+			score = 0;
+			gameInit = false;
 		}
 		if (opponent[save.opponentAmount()/2].positionY() > 460) {
 			menu.createLose(font);
-			done = true;
+			score = 0;
+			gameInit = false;
 		}
 	}
 	al_destroy_timer(timer);

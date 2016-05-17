@@ -2,13 +2,13 @@
 #define player_h
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
-#include "draw.h";
+#include "drawable.h"
 
-class Player : public Draw{
+class Player : public Drawable{
 protected:
 	bool shoot;
 public:
-	void initPlayer(int, int);
+	void initPlayer(int, int, int);
 	void shootPlayer(bool);
 	bool isShoot();
 };
